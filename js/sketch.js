@@ -3,7 +3,6 @@ var planes = [];
 function setup() {
   createCanvas(windowWidth, windowHeight);
   var numPlanes = 10;
-  
   for (var i = 0; i < numPlanes; i++) {
     direction = new PlaneDirection(i*i);
     planes[i] = new PaperPlane(randomPastel(), min(i + 5, 20), direction);
