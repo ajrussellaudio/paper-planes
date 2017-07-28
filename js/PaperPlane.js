@@ -28,20 +28,20 @@ PaperPlane.prototype.draw = function() {
     scale(this.size);
     this.drawShape({
       front: createVector(-15, 0),
-      back: createVector(3, 0),
+      back: createVector(2, 1),
       bottomWingTip: createVector(3, 5),
       bottomWingFold: createVector(0, 0),
-      topWingTip: createVector(2, -7),
-      topWingFold: createVector(0, -2),
-      bodyBase: createVector(-2, 3)
+      topWingTip: createVector(2, -6),
+      topWingFold: createVector(0, -1)
     });
   pop();
 };
 
 PaperPlane.prototype.drawShape = function(corners) {
-  this.drawComponent([corners.front, corners.topWingFold, corners.back, corners.bodyBase]);
+  this.drawComponent([corners.front, corners.topWingFold, corners.back]);
   this.drawComponent([corners.front, corners.topWingFold, corners.topWingTip]);
   this.drawComponent([corners.front, corners.bottomWingFold, corners.bottomWingTip]);
+  this.drawComponent([corners.bottomWingFold, corners.back])
 };
 
 PaperPlane.prototype.drawComponent = function(corners) {
