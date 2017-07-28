@@ -5,7 +5,7 @@ function setup() {
   var numPlanes = 10;
   for (var i = 0; i < numPlanes; i++) {
     direction = new PlaneDirection(i*i);
-    planes[i] = new PaperPlane(randomPastel(), min(i + 5, 20), direction);
+    planes[i] = new PaperPlane(randomPastel(), min(i * 2, 10), direction);
   }
 }
 
@@ -57,26 +57,38 @@ PaperPlane.prototype.draw = function() {
 };
 
 PaperPlane.prototype.drawShape = function() {
+  var corners = {
+    front: createVector(-15, 0),
+    back: createVector(3, 0),
+    bottomWingTip: createVector(3, 5),
+    bottomWingFold: createVector(0, 0),
+    topWingTip: createVector(2, -7),
+    topWingFold: createVector(0, -2),
+    bodyBase: createVector(-2, 3)
+  };
   beginShape();
-    vertex(-11, 4);
-    vertex(-3, 0);
-    vertex(0, 0);
-    vertex(-2, 4);
+    createVertex(corners.front);
+    createVertex(corners.topWingFold);
+    createVertex(corners.back);
+    createVertex(corners.bodyBase);
   endShape(CLOSE);
   beginShape();
-    vertex(-11, 4);
-    vertex(1, 4);
-    vertex(-2, 1);
-    vertex(-11, 4);
-    vertex(-2, 0);
-    vertex(-3, -3);
+    
+    createVertex(corners.front);
+    createVertex(corners.topWingFold);
+    createVertex(corners.topWingTip);
+  endShape(CLOSE);
+  beginShape();
+    createVertex(corners.front);
+    createVertex(corners.bottomWingFold);
+    createVertex(corners.bottomWingTip);
   endShape(CLOSE);
 };
 
 var PlaneDirection = function(seed) {
   this.seed = seed;
   this.noiseScale = 0.0;
-}
+};
 
 PlaneDirection.prototype.move = function() {
   return createVector(-300, this.vertical());
@@ -87,3 +99,7 @@ PlaneDirection.prototype.vertical = function() {
   this.noiseScale += random() * 0.01;
   return map(noise(this.noiseScale), 0, 1, 0 - height, height * 2);
 };
+
+function createVertex(corner) {
+  return vertex(corner.x, corner.y);
+}
