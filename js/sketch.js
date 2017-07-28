@@ -52,36 +52,29 @@ PaperPlane.prototype.draw = function() {
     translate(this.position.x, this.position.y);
     rotate(this.rotation);
     scale(this.size);
-    this.drawShape();
+    this.drawShape({
+      front: createVector(-15, 0),
+      back: createVector(3, 0),
+      bottomWingTip: createVector(3, 5),
+      bottomWingFold: createVector(0, 0),
+      topWingTip: createVector(2, -7),
+      topWingFold: createVector(0, -2),
+      bodyBase: createVector(-2, 3)
+    });
   pop();
 };
 
-PaperPlane.prototype.drawShape = function() {
-  var corners = {
-    front: createVector(-15, 0),
-    back: createVector(3, 0),
-    bottomWingTip: createVector(3, 5),
-    bottomWingFold: createVector(0, 0),
-    topWingTip: createVector(2, -7),
-    topWingFold: createVector(0, -2),
-    bodyBase: createVector(-2, 3)
-  };
+PaperPlane.prototype.drawShape = function(corners) {
+  this.drawComponent([corners.front, corners.topWingFold, corners.back, corners.bodyBase]);
+  this.drawComponent([corners.front, corners.topWingFold, corners.topWingTip]);
+  this.drawComponent([corners.front, corners.bottomWingFold, corners.bottomWingTip]);
+};
+
+PaperPlane.prototype.drawComponent = function(corners) {
   beginShape();
-    createVertex(corners.front);
-    createVertex(corners.topWingFold);
-    createVertex(corners.back);
-    createVertex(corners.bodyBase);
-  endShape(CLOSE);
-  beginShape();
-    
-    createVertex(corners.front);
-    createVertex(corners.topWingFold);
-    createVertex(corners.topWingTip);
-  endShape(CLOSE);
-  beginShape();
-    createVertex(corners.front);
-    createVertex(corners.bottomWingFold);
-    createVertex(corners.bottomWingTip);
+    corners.forEach(function(corner) {
+      createVertex(corner);
+    });
   endShape(CLOSE);
 };
 
