@@ -35,17 +35,18 @@ PaperPlane.prototype.draw = function() {
       topWingFold: createVector(0, -1)
     });
   pop();
-  this.trail.add(this.position, frameCount);
+  this.trail.add(this.position);
 };
 
 PaperPlane.prototype.drawShape = function(corners) {
-  this.drawComponent([corners.front, corners.topWingFold, corners.back]);
+  this.drawComponent([corners.front, corners.topWingFold, corners.back], this.shadedColor());
   this.drawComponent([corners.front, corners.topWingFold, corners.topWingTip]);
   this.drawComponent([corners.front, corners.bottomWingFold, corners.bottomWingTip]);
   this.drawComponent([corners.bottomWingFold, corners.back])
 };
 
-PaperPlane.prototype.drawComponent = function(corners) {
+PaperPlane.prototype.drawComponent = function(corners, color = this.color) {
+  fill(color);
   beginShape();
     corners.forEach(function(corner) {
       vertex(corner.x, corner.y)
@@ -62,4 +63,8 @@ PaperPlane.prototype.reset = function() {
   this.position = createVector(width + 200, random(height));
   this.speed = random() * 5 + 3;
   this.trail.clear();
+};
+
+PaperPlane.prototype.shadedColor = function() {
+  return color(hue(this.color), saturation(this.color) + 10, brightness(this.color) - 7, alpha(this.color));
 };

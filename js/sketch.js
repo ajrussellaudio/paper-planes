@@ -2,12 +2,11 @@ var planes = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // frameRate(12);
+  colorMode(HSB, 360, 100, 100, 1);
   var numPlanes = 12;
   for (var i = 0; i < numPlanes; i++) {
     planes[i] = new PaperPlane({
       color: randomPastel(), 
-      // size: min(i * 2, 10), 
       size: 10, 
       direction: new Direction(i*i),
       trail: new Trail()
@@ -25,8 +24,5 @@ function draw() {
 }
 
 function randomPastel() {
-  function lightGrey() {
-    return random(196, 255);
-  }
-  return color(lightGrey(), lightGrey(), lightGrey());
+  return color(random(360), 20, 100, 1);
 }
