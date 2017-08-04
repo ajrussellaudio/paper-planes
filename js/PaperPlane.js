@@ -6,7 +6,6 @@ var PaperPlane = function(options) {
   this.position = createVector(width + random(width), random(height));
   this.rotation = atan2(this.position.y - mouseY, this.position.x - mouseX);
   this.speed = random() * 5 + 3;
-  
 };
 
 PaperPlane.prototype.move = function() {
@@ -20,6 +19,7 @@ PaperPlane.prototype.move = function() {
 
 PaperPlane.prototype.draw = function() {
   strokeWeight(2 / this.size);
+  strokeJoin(ROUND);
   stroke("#333333")
   fill(this.color);
   push();
@@ -40,9 +40,9 @@ PaperPlane.prototype.draw = function() {
 
 PaperPlane.prototype.drawShape = function(corners) {
   this.drawComponent([corners.front, corners.topWingFold, corners.back], this.shadedColor());
+  this.drawComponent([corners.front, corners.bottomWingFold, corners.back]);
   this.drawComponent([corners.front, corners.topWingFold, corners.topWingTip]);
   this.drawComponent([corners.front, corners.bottomWingFold, corners.bottomWingTip]);
-  this.drawComponent([corners.bottomWingFold, corners.back])
 };
 
 PaperPlane.prototype.drawComponent = function(corners, color = this.color) {
